@@ -1,5 +1,6 @@
 import dk.cphbusiness.ConnectionPool;
 import dk.cphbusiness.DBconnector;
+import dk.cphbusiness.User;
 import dk.cphbusiness.UserMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,8 +11,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class UserTest {
 
@@ -47,7 +50,7 @@ public class UserTest {
     }
 
     @Test
-    void getUsersTest() {
+    void getUsersNamesTest() {
         System.out.println("Testing getting names of all users");
         UserMapper um = new UserMapper(DBconnector.getConnectionPool());
 
@@ -55,5 +58,17 @@ public class UserTest {
         List<String> expected = new ArrayList<>(List.of("Hans", "Peter"));
 
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void getUserByIdTest() {
+        System.out.println("Testing getting details of a specific user");
+        UserMapper um = new UserMapper(DBconnector.getConnectionPool());
+
+        Optional<User> actual = um.findById(2);
+        User expected = new User(2, "Peter", "Jensen", "Password123", "88888888", "Rolighedsvej 13");
+
+        assertTrue(actual.isPresent());
+        assertEquals(expected, actual.get());
     }
 }
