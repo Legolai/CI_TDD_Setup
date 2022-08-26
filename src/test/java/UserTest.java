@@ -55,7 +55,7 @@ public class UserTest {
         UserMapper um = new UserMapper(DBconnector.getConnectionPool());
 
         List<String> actual = um.findAllNames();
-        List<String> expected = new ArrayList<>(List.of("Hans", "Peter"));
+        List<String> expected = List.of("Hans", "Peter");
 
         assertEquals(expected, actual);
     }
