@@ -27,5 +27,5 @@ jobs:
           # mysql password: ${{ secrets.DatabasePassword }} # Required if "mysql user" exists. The password for the "mysql user"
           mysql password: 'ax2'
       - name: Build with Maven
-        run: mvn verify
+        run: mvn --batch-mode --update-snapshots verify
 
