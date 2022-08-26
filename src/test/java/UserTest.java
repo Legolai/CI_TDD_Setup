@@ -71,4 +71,27 @@ public class UserTest {
         assertTrue(actual.isPresent());
         assertEquals(expected, actual.get());
     }
+
+    @Test
+    void editUserDetailsTest() {
+        System.out.println("Testing getting details of a specific user");
+        UserMapper um = new UserMapper(DBconnector.getConnectionPool());
+
+        Optional<User> optionalUser = um.findById(2);
+        assertTrue(optionalUser.isPresent());
+        User user = optionalUser.get();
+
+        user.setFname("Kurt");
+        user.setLname("Petersen");
+
+        boolean actual = um.updateDetails(user);
+        assertTrue(actual);
+
+        Optional<User> actualUser = um.findById(2);
+
+        User expected = new User(2, "Kurt", "Petersen", "Password123", "88888888", "Rolighedsvej 13");
+
+        assertTrue(actualUser.isPresent());
+        assertEquals(expected, actualUser.get());
+    }
 }

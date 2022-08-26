@@ -55,4 +55,25 @@ public class UserMapper {
         }
         return Optional.empty();
     }
+
+    public boolean updateDetails(User user) {
+        try (Connection conn = connectionPool.getConnection()) {
+            String sql = "UPDATE usertable SET fname = ?, lname = ?, pw = ?, `phone` = ?, `address` =? WHERE `id` = ?;";
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setString(1, user.getFname());
+            pstm.setString(2, user.getLname());
+            pstm.setString(3, user.getPassword());
+            pstm.setString(4, user.getPhone());
+            pstm.setString(5, user.getAddress());
+            pstm.setInt(6, user.getId());
+
+            int status = pstm.executeUpdate();
+
+            return status == 1;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
